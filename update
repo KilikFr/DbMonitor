@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# versionupdate
+git pull
+~/bin/composer install
+
+# apply migrations
+./bin/console doctrine:migrations:migrate --no-interaction
+
+# clear the cache
+./bin/console cache:clear --env=prod
