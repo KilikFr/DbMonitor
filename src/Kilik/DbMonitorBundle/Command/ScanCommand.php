@@ -81,9 +81,8 @@ class ScanCommand extends ContainerAwareCommand
                         $history->setNbRows($row['TABLE_ROWS'] + 0);
                         $history->setDataLength($row['DATA_LENGTH'] + 0);
                         $history->setIndexLength($row['INDEX_LENGTH'] + 0);
-                        //$em->persist($history);
+                        $em->persist($history);
                     }
-                    //dump($res);
                 } catch (ConnectionException $e) {
                     $output->writeln('<error>can\'t connect to '.$server->getName().'</error>');
                 }
