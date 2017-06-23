@@ -1,0 +1,5 @@
+kilik_db_monitor:
+    resource: "@KilikDbMonitorBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

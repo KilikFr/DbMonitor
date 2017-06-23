@@ -1,0 +1,10 @@
+# crontab for kilik-db-monitor
+
+# monthly - first day of month at 00h05
+05 0 1 * *     www-data cd /var/www/kilik-db-monitor.kilik.fr && ./bin/console kilik:db-monitor:scan --mode monthly --auto-purge >/dev/null 2>&1
+
+# daily - at 00h10
+10 0 * * *     www-data cd /var/www/kilik-db-monitor.kilik.fr && ./bin/console kilik:db-monitor:scan --mode daily --auto-purge >/dev/null 2>&1
+
+# hourly - at 05
+05 * * * *     www-data cd /var/www/kilik-db-monitor.kilik.fr && ./bin/console kilik:db-monitor:scan --mode hourly --auto-purge >/dev/null 2>&1

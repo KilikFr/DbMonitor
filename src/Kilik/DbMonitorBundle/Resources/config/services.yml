@@ -1,0 +1,4 @@
+services:
+#    kilik_db_monitor.example:
+#        class: Kilik\DbMonitorBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
