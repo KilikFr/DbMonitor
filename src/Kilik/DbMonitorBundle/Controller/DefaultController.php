@@ -55,7 +55,8 @@ class DefaultController extends AbstractController
             ->select('s,COUNT(DISTINCT(h.dbName)) AS nbDatabases,COUNT(DISTINCT(h.tableName)) AS nbTables,ROUND(SUM(h.dataLength)/1000000) AS dataLength')
             ->join('KilikDbMonitorBundle:HourlyHistory', 'h', 's = h.server')
             ->where('h.date = :date')
-            ->setParameter('date', $date);
+            ->setParameter('date', $date)
+            ->groupBy('s');
 
         $table = (new Table())
             ->setRowsPerPage(10)
