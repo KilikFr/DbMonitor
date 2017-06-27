@@ -20,25 +20,77 @@ use Symfony\Component\HttpFoundation\Response;
 class EvolutionController extends AbstractController
 {
     /**
+     * Get previous date from date and periods.
+     *
+     * @param string    $history
+     * @param \DateTime $date
+     * @param int       $periods
+     *
+     * @return \DateTime
+     */
+    private function previousDate($history, \DateTime $date, $periods)
+    {
+        $previousDate = clone $date;
+        switch ($history) {
+            case 'monthly':
+                $previousDate->modify('-'.$periods.' month');
+                break;
+            case 'daily':
+                $previousDate->modify('-'.$periods.' day');
+                break;
+            case 'hourly':
+            default:
+                $previousDate->modify('-'.$periods.' hour');
+                break;
+        }
+
+        return $previousDate;
+    }
+
+    /**
      * Check evolution on one hour.
      *
-     * @Route("/{history}/{server}/{date}", name="kilik_db_monitor_evolution_history")
+     * @Route("/{history}/{server}/{date}/{periods}", name="kilik_db_monitor_evolution_history", defaults={"periods": 1})
      * @Template()
      * @ParamConverter("date", options={"format": "Y-m-d_H:i"})
      *
      * @param string    $history
      * @param Server    $server
      * @param \DateTime $date
+     * @param int       $periods
      *
      * @return array
      */
-    public function historyAction($history, Server $server, \DateTime $date)
+    public function historyAction($history, Server $server, \DateTime $date, $periods)
     {
+        $dateBefore = clone $date;
+        $dateAfter = clone $date;
+        $previousDate = $this->previousDate($history, $date, $periods);
+        switch ($history) {
+            case 'monthly':
+                $dateBefore->modify('-1 month');
+                $dateAfter->modify('+1 month');
+                break;
+            case 'daily':
+                $dateBefore->modify('-1 day');
+                $dateAfter->modify('+1 day');
+                break;
+            case 'hourly':
+            default:
+                $dateBefore->modify('-1 hour');
+                $dateAfter->modify('+1 hour');
+                break;
+        }
+
         $data = [
             'server' => $server,
             'history' => $history,
             'date' => $date,
-            'table' => $this->get('kilik_table')->createFormView($this->getTable($history, $server, $date)),
+            'previousDate' => $previousDate,
+            'periods' => $periods,
+            'dateBefore' => $dateBefore,
+            'dateAfter' => $dateAfter,
+            'table' => $this->get('kilik_table')->createFormView($this->getTable($history, $server, $date, $previousDate, $periods)),
         ];
 
         return $data;
@@ -50,10 +102,12 @@ class EvolutionController extends AbstractController
      * @param string    $history
      * @param Server    $server
      * @param \DateTime $date
+     * @param \DateTime $previousDate
+     * @param int       $periods
      *
      * @return Table
      */
-    private function getTable($history, Server $server, \DateTime $date)
+    private function getTable($history, Server $server, \DateTime $date, \DateTime $previousDate, $periods)
     {
         /* SELECT h.db_name,h.table_name,
     h.nb_rows AS nb_rows, ph.nb_rows AS ph_nb_rows
@@ -62,20 +116,16 @@ class EvolutionController extends AbstractController
     WHERE h.date = '2017-06-26 16:00:00'
         */
 
-        $previousDate = clone $date;
         switch ($history) {
             case 'monthly':
                 $repositoryName = 'KilikDbMonitorBundle:MonthlyHistory';
-                $previousDate->modify('-1 month');
                 break;
             case 'daily':
                 $repositoryName = 'KilikDbMonitorBundle:DailyHistory';
-                $previousDate->modify('-1 day');
                 break;
             case 'hourly':
             default:
                 $repositoryName = 'KilikDbMonitorBundle:HourlyHistory';
-                $previousDate->modify('-1 hour');
                 break;
         }
 
@@ -92,7 +142,7 @@ class EvolutionController extends AbstractController
         $table = (new Table())
             ->setRowsPerPage(10)
             ->setId('kilik_db_monitor_evolution_history_list')
-            ->setPath($this->generateUrl('kilik_db_monitor_evolution_history_list_ajax', ['history' => $history, 'server' => $server->getId(), 'date' => $date->format('Y-m-d_H:i')]))
+            ->setPath($this->generateUrl('kilik_db_monitor_evolution_history_list_ajax', ['history' => $history, 'server' => $server->getId(), 'date' => $date->format('Y-m-d_H:i'), 'periods' => $periods]))
             ->setTemplate('KilikDbMonitorBundle:Evolution:_historyList.html.twig')
             ->setTemplateParams(['history' => $history, 'date' => $date, 'server' => $server])
             ->setQueryBuilder($queryBuilder, 'h');
@@ -198,18 +248,21 @@ class EvolutionController extends AbstractController
     }
 
     /**
-     * @Route("/{history}/{server}/{date}/ajax", name="kilik_db_monitor_evolution_history_list_ajax")
+     * @Route("/{history}/{server}/{date}/{periods}/ajax", name="kilik_db_monitor_evolution_history_list_ajax")
      * @Template()
      * @ParamConverter("date", options={"format": "Y-m-d_H:i"})
      *
      * @param string    $history
      * @param Server    $server
      * @param \DateTime $date
+     * @param int       $periods
      *
      * @return Response
      */
-    public function _listAction(Request $request, $history, Server $server, \DateTime $date)
+    public function _listAction(Request $request, $history, Server $server, \DateTime $date, $periods)
     {
-        return $this->get('kilik_table')->handleRequest($this->getTable($history, $server, $date), $request);
+        $previousDate = $this->previousDate($history, $date, $periods);
+
+        return $this->get('kilik_table')->handleRequest($this->getTable($history, $server, $date, $previousDate, $periods), $request);
     }
 }

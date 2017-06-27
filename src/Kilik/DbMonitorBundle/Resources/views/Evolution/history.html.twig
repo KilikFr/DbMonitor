@@ -8,10 +8,44 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-12">
+                <a class="btn btn-default" href="{{ path('kilik_db_monitor_evolution_history',{"history": history, "date": dateBefore|date('Y-m-d_H:i'),"server": server.id, "periods": periods}) }}">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+                {% if history=='hourly' %}
+                    {{ date|date('H:i d/m/Y') }}
+                {% else %}
+                    {{ date|date('d/m/Y') }}
+                {% endif %}
+                <a class="btn btn-default" href="{{ path('kilik_db_monitor_evolution_history',{"history": history, "date": dateAfter|date('Y-m-d_H:i'),"server": server.id, "periods": periods}) }}">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+                {{ periods }} periods
+                {% if periods >1 %}
+                    <a class="btn btn-default" href="{{ path('kilik_db_monitor_evolution_history',{"history": history, "date": date|date('Y-m-d_H:i'),"server": server.id, "periods": periods-1}) }}">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                {% else %}
+                    <a class="btn btn-default" href="#" disabled="disabled">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                {% endif %}
+                <a class="btn btn-default" href="{{ path('kilik_db_monitor_evolution_history',{"history": history, "date": date|date('Y-m-d_H:i'),"server": server.id, "periods": periods+1}) }}">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <br/>
+                <br/>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
                 {% embed "@KilikDbMonitor/Evolution/_historyList.html.twig" with {"table": table} %}
                     {% block tableTitle %}
-                        <b>{{ history|capitalize }} evolution to {% if history=='hourly' %}{{ date|date('H:i d/m/Y') }}{% else %}{{ date|date('d/m/Y') }}{% endif %}</b>
+                        <b>{{ history|capitalize }} evolution from
+                            {% if history=='hourly' %}{{ previousDate|date('H:i d/m/Y') }}{% else %}{{ previousDate|date('d/m/Y') }}{% endif %}
+                            to
+                            {% if history=='hourly' %}{{ date|date('H:i d/m/Y') }}{% else %}{{ date|date('d/m/Y') }}{% endif %}
+                        </b>
                     {% endblock tableTitle %}
                 {% endembed %}
             </div>
