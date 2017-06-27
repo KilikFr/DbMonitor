@@ -214,4 +214,19 @@ abstract class AbstractHistory
     {
         return $this->server;
     }
+
+    /**
+     * Set date
+     *
+     * @param  \DateTime
+     * @return static
+     */
+    public abstract function setDate(\DateTime $date);
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public abstract function getDate();
 }

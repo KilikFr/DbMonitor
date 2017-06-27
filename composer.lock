@@ -4,9 +4,71 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "180f9678b666b9e6a10c8a842eefbbc0",
-    "content-hash": "f239822dd4f770347f19343306d00e66",
+    "hash": "f860087265db6cbc0487bca1c8738ebd",
+    "content-hash": "fa7541f9d3fb604058b219eee30dacd0",
     "packages": [
+        {
+            "name": "beberlei/DoctrineExtensions",
+            "version": "v1.0.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/DoctrineExtensions.git",
+                "reference": "608854d5979e21cd8290ddf03a92f55017f62c80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/DoctrineExtensions/zipball/608854d5979e21cd8290ddf03a92f55017f62c80",
+                "reference": "608854d5979e21cd8290ddf03a92f55017f62c80",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.1",
+                "nesbot/carbon": "*",
+                "phpunit/phpunit": "~4.5",
+                "symfony/yaml": "~2.6",
+                "zf1/zend-date": "~1.12",
+                "zf1/zend-registry": "~1.12"
+            },
+            "suggest": {
+                "nesbot/carbon": "Alternative to DateTime",
+                "zf1/zend-date": "Alternative to DateTime"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DoctrineExtensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Steve Lacey",
+                    "email": "steve@stevelacey.net"
+                }
+            ],
+            "description": "A set of extensions to Doctrine 2 that add support for additional query functions available in MySQL and Oracle.",
+            "keywords": [
+                "database",
+                "doctrine",
+                "orm"
+            ],
+            "time": "2017-06-16 07:29:39"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.0.7",
@@ -1123,6 +1185,52 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
+        },
+        {
+            "name": "kilik/table",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KilikFr/TableBundle.git",
+                "reference": "7064f38a970cc0921d2e6192cca4aab629207997"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/7064f38a970cc0921d2e6192cca4aab629207997",
+                "reference": "7064f38a970cc0921d2e6192cca4aab629207997",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "doctrine/orm": "~2.3",
+                "php": "~5.6|~7.0",
+                "twig/twig": ">=1.8,<2.0-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kilik\\TableBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Naud",
+                    "email": "mitch@kilik.fr",
+                    "role": "Author"
+                }
+            ],
+            "description": "Symfony2 Ajax Datagrid Bundle for doctrine2 entities",
+            "homepage": "https://github.com/KilikFr/TableBundle",
+            "keywords": [
+                "Symfony2",
+                "jquery",
+                "table"
+            ],
+            "time": "2017-05-03 10:40:40"
         },
         {
             "name": "monolog/monolog",

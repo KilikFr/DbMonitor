@@ -29,7 +29,7 @@ class HourlyHistory extends AbstractHistory
      *
      * @return static
      */
-    public function setDate($date)
+    public function setDate(\DateTime $date)
     {
         $this->date = $date;
 

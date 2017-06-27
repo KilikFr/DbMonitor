@@ -10,4 +10,15 @@ namespace Kilik\DbMonitorBundle\Repository;
  */
 class ServerRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Count servers
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $qb=$this->createQueryBuilder('s')->select('count(s) AS nb');
+        $row=$qb->getQuery()->getOneOrNullResult();
+        return $row['nb'];
+    }
 }

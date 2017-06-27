@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Evolution ({{ history }}) - {{ server.name }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                {% embed "@KilikDbMonitor/Evolution/_historyList.html.twig" with {"table": table} %}
+                    {% block tableTitle %}
+                        <b>{{ history|capitalize }} evolution to {% if history=='hourly' %}{{ date|date('H:i d/m/Y') }}{% else %}{{ date|date('d/m/Y') }}{% endif %}</b>
+                    {% endblock tableTitle %}
+                {% endembed %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- /#page-wrapper -->
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = new KilikTable("{{ table.id }}", "{{ table.path }}", JSON.parse('{{ table.options | json_encode |raw }}'));
+            table.init();
+        });
+    </script>
+{% endblock %}
