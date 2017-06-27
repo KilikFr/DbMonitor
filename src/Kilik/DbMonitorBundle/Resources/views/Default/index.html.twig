@@ -13,11 +13,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
+                                <i class="fa fa-list fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
-                                <div>New Comments!</div>
+                                <div class="huge">{{ nbRows | number_format(0,'.',' ') }}</div>
+                                <div>Rows</div>
                             </div>
                         </div>
                     </div>
@@ -35,11 +35,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
+                                <i class="fa fa-table fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <div class="huge">{{ nbTables | number_format(0,'.',' ') }}</div>
+                                <div>Tables</div>
                             </div>
                         </div>
                     </div>
@@ -57,11 +57,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                <i class="fa fa-database fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
-                                <div>New Orders!</div>
+                                <div class="huge">{{ nbDatabases | number_format(0,'.',' ') }}</div>
+                                <div>Databases</div>
                             </div>
                         </div>
                     </div>
@@ -74,16 +74,17 @@
                     </a>
                 </div>
             </div>
+            {# servers #}
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-red">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
+                                <i class="fa fa-server fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Support Tickets!</div>
+                                <div class="huge">{{ nbServers | number_format(0,'.',' ') }}</div>
+                                <div>Servers</div>
                             </div>
                         </div>
                     </div>
@@ -97,6 +98,33 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <i>Stats based on hourly report {{ lastTime | date('d/m/Y H:i') }}</i>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                {% embed "@KilikDbMonitor/Default/_dashboardList.html.twig" with {"table": table} %}
+                    {% block tableTitle %}
+                        <b>Servers stats</b>
+                    {% endblock tableTitle %}
+                {% endembed %}
+            </div>
+        </div>
+
     </div>
+
     <!-- /#page-wrapper -->
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = new KilikTable("{{ table.id }}", "{{ table.path }}", JSON.parse('{{ table.options | json_encode |raw }}'));
+            table.init();
+        });
+    </script>
 {% endblock %}
