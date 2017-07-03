@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f860087265db6cbc0487bca1c8738ebd",
-    "content-hash": "fa7541f9d3fb604058b219eee30dacd0",
+    "hash": "277db0c3b9260db88d7afa1fb1d22ff9",
+    "content-hash": "edaee4b7ca9f4b6879ce489933cb212f",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1188,23 +1188,23 @@
         },
         {
             "name": "kilik/table",
-            "version": "0.2.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KilikFr/TableBundle.git",
-                "reference": "7064f38a970cc0921d2e6192cca4aab629207997"
+                "reference": "7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/7064f38a970cc0921d2e6192cca4aab629207997",
-                "reference": "7064f38a970cc0921d2e6192cca4aab629207997",
+                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7",
+                "reference": "7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.0",
                 "doctrine/orm": "~2.3",
                 "php": "~5.6|~7.0",
-                "twig/twig": ">=1.8,<2.0-dev"
+                "twig/twig": "^1.0||^2.0"
             },
             "type": "library",
             "autoload": {
@@ -1223,14 +1223,14 @@
                     "role": "Author"
                 }
             ],
-            "description": "Symfony2 Ajax Datagrid Bundle for doctrine2 entities",
+            "description": "Symfony Ajax Datagrid Bundle for doctrine entities",
             "homepage": "https://github.com/KilikFr/TableBundle",
             "keywords": [
-                "Symfony2",
                 "jquery",
+                "symfony",
                 "table"
             ],
-            "time": "2017-05-03 10:40:40"
+            "time": "2017-05-15 13:32:50"
         },
         {
             "name": "monolog/monolog",
@@ -2833,7 +2833,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "kilik/table": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
