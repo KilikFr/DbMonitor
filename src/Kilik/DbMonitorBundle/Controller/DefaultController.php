@@ -84,6 +84,12 @@ class DefaultController extends AbstractController
                         ->setName('nbDatabases')
                         ->setHaving(true)
                 )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
+                )
         );
 
         $table->addColumn(
@@ -95,6 +101,12 @@ class DefaultController extends AbstractController
                         ->setName('nbTables')
                         ->setHaving(true)
                 )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
+                )
         );
 
         $table->addColumn(
@@ -105,6 +117,12 @@ class DefaultController extends AbstractController
                         ->setField('dataLength')
                         ->setName('dataLength')
                         ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
                 )
         );
 

@@ -8,6 +8,97 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-list fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ stats.period.rows | number_format(0,'.',' ') }}</div>
+                                <div>Rows</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-line-chart"></i> {{ stats.delta.rows | signed_color | raw }}</span>
+                            <span class="pull-right">{{ stats.ratio.rows | signed_color | raw }}%</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-table fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ stats.period.tables | number_format(0,'.',' ') }}</div>
+                                <div>Tables</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-line-chart"></i> {{ stats.delta.tables | signed_color | raw }}</span>
+                            <span class="pull-right">{{ stats.ratio.tables | signed_color | raw }}%</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-database fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ stats.period.databases | number_format(0,'.',' ') }}</div>
+                                <div>Databases</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-line-chart"></i> {{ stats.delta.databases | signed_color | raw }}</span>
+                            <span class="pull-right">{{ stats.ratio.databases | signed_color | raw }}%</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {# dataLentgh #}
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-cube fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">{{ (stats.period.dataLength/1000000) | number_format(0,'.',' ') }}</div>
+                                <div>MB</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left"><i class="fa fa-line-chart"></i> {{ (stats.delta.dataLength/1000000) | signed_color | raw }}</span>
+                            <span class="pull-right">{{ stats.ratio.dataLength | signed_color | raw }}%</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-lg-12">
                 <a class="btn btn-default" href="{{ path('kilik_db_monitor_evolution_history',{"history": history, "date": dateBefore|date('Y-m-d_H:i'),"server": server.id, "periods": periods}) }}">
                     <i class="fa fa-arrow-left"></i>

@@ -70,15 +70,18 @@ class EvolutionController extends AbstractController
             case 'monthly':
                 $dateBefore->modify('-1 month');
                 $dateAfter->modify('+1 month');
+                $repository = 'KilikDbMonitorBundle:MonthlyHistory';
                 break;
             case 'daily':
                 $dateBefore->modify('-1 day');
                 $dateAfter->modify('+1 day');
+                $repository = 'KilikDbMonitorBundle:DailyHistory';
                 break;
             case 'hourly':
             default:
                 $dateBefore->modify('-1 hour');
                 $dateAfter->modify('+1 hour');
+                $repository = 'KilikDbMonitorBundle:HourlyHistory';
                 break;
         }
 
@@ -91,7 +94,39 @@ class EvolutionController extends AbstractController
             'dateBefore' => $dateBefore,
             'dateAfter' => $dateAfter,
             'table' => $this->get('kilik_table')->createFormView($this->getTable($history, $server, $date, $previousDate, $periods)),
+            'stats' => [
+                'period' => [
+                    'databases' => $this->manager()->getRepository($repository)->countDatabasesByServer($date, $server),
+                    'tables' => $this->manager()->getRepository($repository)->countTablesByServer($date, $server),
+                    'rows' => $this->manager()->getRepository($repository)->countRowsByServer($date, $server),
+                    'dataLength' => $this->manager()->getRepository($repository)->countDataLengthByServer($date, $server),
+                    'indexLength' => $this->manager()->getRepository($repository)->countIndexLengthByServer($date, $server),
+                ],
+                'previous' => [
+                    'databases' => $this->manager()->getRepository($repository)->countDatabasesByServer($previousDate, $server),
+                    'tables' => $this->manager()->getRepository($repository)->countTablesByServer($previousDate, $server),
+                    'rows' => $this->manager()->getRepository($repository)->countRowsByServer($previousDate, $server),
+                    'dataLength' => $this->manager()->getRepository($repository)->countDataLengthByServer($previousDate, $server),
+                    'indexLength' => $this->manager()->getRepository($repository)->countIndexLengthByServer($previousDate, $server),
+                ],
+                'ratio' => [],
+                'delta' => [],
+            ],
         ];
+
+        foreach ($data['stats']['period'] as $type => $periodValue) {
+            $previousValue = $data['stats']['previous'][$type];
+            $delta = $periodValue - $previousValue;
+            if ($previousValue != 0) {
+                $ratio = round(100 * (1 - $periodValue / $previousValue), 3);
+            } else {
+                $ratio = 0;
+            }
+            $data['stats']['ratio'][$type] = $ratio;
+            $data['stats']['delta'][$type] = $delta;
+        }
+
+        dump($data);
 
         return $data;
     }
@@ -132,7 +167,7 @@ class EvolutionController extends AbstractController
         $queryBuilder = $this->manager()
             ->getRepository($repositoryName)
             ->createQueryBuilder('h')
-            ->select('h,h.dataLength AS dataLength,h.nbRows AS nbRows,ph.nbRows AS previousNbRows,ph.dataLength AS previousDataLength,100*ROUND((h.nbRows-ph.nbRows)/ph.nbRows,2) AS ratioRows,100*ROUND((h.dataLength-ph.dataLength)/ph.dataLength,2) AS ratioDataLength,(h.dataLength-ph.dataLength) AS deltaLength')
+            ->select('h,h.dataLength AS dataLength,h.nbRows AS nbRows,ph.nbRows AS previousNbRows,ph.dataLength AS previousDataLength,100*ROUND((h.nbRows-ph.nbRows)/ph.nbRows,2) AS ratioRows,(h.nbRows-ph.nbRows) AS deltaRows,100*ROUND((h.dataLength-ph.dataLength)/ph.dataLength,2) AS ratioDataLength,(h.dataLength-ph.dataLength) AS deltaLength')
             ->leftJoin($repositoryName, 'ph', 'WITH', 'h.server = ph.server AND h.dbName = ph.dbName AND h.tableName=ph.tableName AND ph.date = :previousDate')
             ->where('h.server = :server AND h.date = :date')
             ->setParameter('server', $server)
@@ -176,6 +211,12 @@ class EvolutionController extends AbstractController
                         ->setName('nbRows')
                         ->setHaving(true)
                 )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
+                )
         );
 
         $table->addColumn(
@@ -186,6 +227,12 @@ class EvolutionController extends AbstractController
                         ->setField('previousNbRows')
                         ->setName('previousNbRows')
                         ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
                 )
         );
 
@@ -201,6 +248,23 @@ class EvolutionController extends AbstractController
         );
 
         $table->addColumn(
+            (new Column())->setLabel('delta rows')
+                ->setSort(['deltaRows' => 'asc'])
+                ->setFilter(
+                    (new Filter())
+                        ->setField('deltaRows')
+                        ->setName('deltaRows')
+                        ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
+                )
+        );
+
+        $table->addColumn(
             (new Column())->setLabel('Data Length')
                 ->setSort(['dataLength' => 'asc'])
                 ->setFilter(
@@ -208,6 +272,12 @@ class EvolutionController extends AbstractController
                         ->setField('dataLength')
                         ->setName('dataLength')
                         ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
                 )
         );
 
@@ -219,6 +289,12 @@ class EvolutionController extends AbstractController
                         ->setField('previousDataLength')
                         ->setName('previousDataLength')
                         ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
                 )
         );
 
@@ -241,6 +317,12 @@ class EvolutionController extends AbstractController
                         ->setField('deltaLength')
                         ->setName('deltaLength')
                         ->setHaving(true)
+                )
+                ->setDisplayClass('text-right')
+                ->setDisplayCallback(
+                    function ($a) {
+                        return number_format($a, 0, '.', ' ');
+                    }
                 )
         );
 
