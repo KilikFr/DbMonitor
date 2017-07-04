@@ -118,7 +118,7 @@ class EvolutionController extends AbstractController
             $previousValue = $data['stats']['previous'][$type];
             $delta = $periodValue - $previousValue;
             if ($previousValue != 0) {
-                $ratio = round(100 * (1 - $periodValue / $previousValue), 3);
+                $ratio = round(100 * ($periodValue / $previousValue - 1), 3);
             } else {
                 $ratio = 0;
             }
@@ -263,7 +263,7 @@ class EvolutionController extends AbstractController
         );
 
         $table->addColumn(
-            (new Column())->setLabel('Data Length')
+            (new Column())->setLabel('Data Length (MB)')
                 ->setSort(['dataLength' => 'asc'])
                 ->setFilter(
                     (new Filter())
@@ -274,13 +274,13 @@ class EvolutionController extends AbstractController
                 ->setDisplayClass('text-right')
                 ->setDisplayCallback(
                     function ($a) {
-                        return number_format($a, 0, '.', ' ');
+                        return number_format($a / 1000000, 0, '.', ' ');
                     }
                 )
         );
 
         $table->addColumn(
-            (new Column())->setLabel('Prev. dataLength')
+            (new Column())->setLabel('Prev. dataLength (MB)')
                 ->setSort(['previousDataLength' => 'asc'])
                 ->setFilter(
                     (new Filter())
@@ -291,7 +291,7 @@ class EvolutionController extends AbstractController
                 ->setDisplayClass('text-right')
                 ->setDisplayCallback(
                     function ($a) {
-                        return number_format($a, 0, '.', ' ');
+                        return number_format($a / 1000000, 0, '.', ' ');
                     }
                 )
         );
@@ -308,7 +308,7 @@ class EvolutionController extends AbstractController
         );
 
         $table->addColumn(
-            (new Column())->setLabel('delta data')
+            (new Column())->setLabel('delta data (MB)')
                 ->setSort(['deltaLength' => 'asc'])
                 ->setFilter(
                     (new Filter())
@@ -319,7 +319,7 @@ class EvolutionController extends AbstractController
                 ->setDisplayClass('text-right')
                 ->setDisplayCallback(
                     function ($a) {
-                        return number_format($a, 0, '.', ' ');
+                        return number_format($a / 1000000, 0, '.', ' ');
                     }
                 )
         );
