@@ -1192,12 +1192,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KilikFr/TableBundle.git",
-                "reference": "7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7"
+                "reference": "78a90b332d499593c32a6cf50cf2b675cd19356c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7",
-                "reference": "7eac008d6b4ad2f8adaf11d1c4b4600a889ac5f7",
+                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/78a90b332d499593c32a6cf50cf2b675cd19356c",
+                "reference": "78a90b332d499593c32a6cf50cf2b675cd19356c",
                 "shasum": ""
             },
             "require": {
@@ -1230,7 +1230,7 @@
                 "symfony",
                 "table"
             ],
-            "time": "2017-05-15 13:32:50"
+            "time": "2017-07-03 15:43:07"
         },
         {
             "name": "monolog/monolog",

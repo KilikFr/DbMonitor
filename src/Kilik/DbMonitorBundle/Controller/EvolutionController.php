@@ -126,8 +126,6 @@ class EvolutionController extends AbstractController
             $data['stats']['delta'][$type] = $delta;
         }
 
-        dump($data);
-
         return $data;
     }
 
