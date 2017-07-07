@@ -60,6 +60,7 @@ class DefaultController extends AbstractController
 
         $table = (new Table())
             ->setRowsPerPage(10)
+            ->setEntityLoaderRepository('KilikDbMonitorBundle:Server')
             ->setId('kilik_db_monitor_dashboard_list')
             ->setPath($this->generateUrl('dashboard_list_ajax', ['lastTime' => $date->format('Y-m-d H:i')]))
             ->setTemplate('KilikDbMonitorBundle:Default:_dashboardList.html.twig')

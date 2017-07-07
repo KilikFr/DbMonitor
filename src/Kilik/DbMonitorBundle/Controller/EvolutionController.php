@@ -174,6 +174,13 @@ class EvolutionController extends AbstractController
 
         $table = (new Table())
             ->setRowsPerPage(10)
+            ->setEntityLoaderRepository($repositoryName)
+            // or with callback loader ?
+            /*
+            ->setEntityLoaderCallback(function($ids) {
+                return $this->manager()->getRepository('KilikDbMonitorBundle:DailyHistory')->findById($ids);
+            })
+            */
             ->setId('kilik_db_monitor_evolution_history_list')
             ->setPath($this->generateUrl('kilik_db_monitor_evolution_history_list_ajax', ['history' => $history, 'server' => $server->getId(), 'date' => $date->format('Y-m-d_H:i'), 'periods' => $periods]))
             ->setTemplate('KilikDbMonitorBundle:Evolution:_historyList.html.twig')
