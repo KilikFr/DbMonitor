@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5e8e49b87b6142dae748728afc4980ae",
-    "content-hash": "0a21ef1b7d98120bebd25426d7d22be0",
+    "hash": "277db0c3b9260db88d7afa1fb1d22ff9",
+    "content-hash": "edaee4b7ca9f4b6879ce489933cb212f",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1188,16 +1188,16 @@
         },
         {
             "name": "kilik/table",
-            "version": "dev-alternative-entity-loader",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KilikFr/TableBundle.git",
-                "reference": "e211168d9686947c717693ff0d65d4dea8794515"
+                "reference": "d5fa67fb7d43dcbdab4579452b3c608181023349"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/e211168d9686947c717693ff0d65d4dea8794515",
-                "reference": "e211168d9686947c717693ff0d65d4dea8794515",
+                "url": "https://api.github.com/repos/KilikFr/TableBundle/zipball/d5fa67fb7d43dcbdab4579452b3c608181023349",
+                "reference": "d5fa67fb7d43dcbdab4579452b3c608181023349",
                 "shasum": ""
             },
             "require": {
@@ -1230,7 +1230,7 @@
                 "symfony",
                 "table"
             ],
-            "time": "2017-07-07 16:31:07"
+            "time": "2017-07-07 16:53:04"
         },
         {
             "name": "monolog/monolog",
